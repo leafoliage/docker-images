@@ -1,0 +1,8 @@
+build:
+	docker build -t kali .
+
+run:
+	docker run --rm --privileged -it --name kali-1 kali /bin/bash || true
+
+cp ovpn_file="/home/leaf/Downloads/leafoliage.ovpn":
+	docker cp {{ovpn_file}} kali-1:/

@@ -1,0 +1,15 @@
+image := "crypto"
+container := "crypto-1"
+
+build:
+  docker build . -t {{image}}
+
+@run:
+  @docker run --rm -p 8888:8888 -d --name {{container}} {{image}}
+  sleep 2 && just access
+
+@access:
+  docker logs {{container}} 2>&1 | grep -A 4 "To access the server"
+
+stop:
+  docker kill {{container}}
