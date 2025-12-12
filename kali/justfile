@@ -1,8 +1,11 @@
+image := "kali"
+container := "kali-1"
+
 build:
-	docker build -t kali .
+	docker build -t {{image}} .
 
 run:
-	docker run --rm --privileged -it --name kali-1 kali /bin/bash || true
+	docker run --rm --privileged -it --name {{container}} {{image}} /bin/bash || true
 
-cp ovpn_file="/home/leaf/Downloads/leafoliage.ovpn":
-	docker cp {{ovpn_file}} kali-1:/
+cp file dst="/":
+	docker cp {{file}} {{container}}:{{dst}}
