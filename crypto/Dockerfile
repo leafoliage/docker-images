@@ -13,4 +13,6 @@ RUN pip3 install --no-cache-dir jupyterlab
 
 EXPOSE 8888
 
+USER sage
+
 CMD ["jupyter-lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]

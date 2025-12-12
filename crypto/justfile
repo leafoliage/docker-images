@@ -1,15 +1,21 @@
 image := "crypto"
 container := "crypto-1"
+port := "8888"
+bind_src := "$(pwd)"
+bind_dst := "/home/sage/work"
 
 build:
   docker build . -t {{image}}
 
 @run:
-  @docker run --rm -p 8888:8888 -d --name {{container}} {{image}}
+  @docker run --rm -p {{port}}:8888 -v {{bind_src}}:{{bind_dst}} -d --name {{container}} {{image}}
   sleep 2 && just access
 
 @access:
-  docker logs {{container}} 2>&1 | grep -A 4 "To access the server"
+  docker logs {{container}} 2>&1 | grep -A 4 "To access the server" | sed 's/8888/{{port}}/g'
 
 stop:
   docker kill {{container}}
+
+@sh user="sage":
+  docker exec -it -u {{user}} {{container}} bash
